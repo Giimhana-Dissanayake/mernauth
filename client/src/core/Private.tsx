@@ -1,8 +1,10 @@
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useHistory } from "react-router-dom";
 
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.min.css";
+import { getCookie, isAuth, signout } from "../auth/helper";
 
 import Layout from "../core/Layout";
 
@@ -14,6 +16,36 @@ const Private = () => {
     password: "",
     buttonText: "Submit",
   });
+
+  const history = useHistory();
+  const token = getCookie("token");
+
+  useEffect(() => {
+    loadProfile();
+  }, []);
+
+  const loadProfile = () => {
+    axios({
+      method: "GET",
+      url: `${process.env.REACT_APP_API}/user/${isAuth()._id}`,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((response) => {
+        console.log("PRIVATE PROFILE UPDATE ", response);
+        const { role, name, email } = response.data;
+        setValues({ ...values, role, name, email });
+      })
+      .catch((err) => {
+        console.log("PRIVATE PROFILE UPDATE ERROR ", err.response.data.error);
+        if (err.response.status === 401) {
+          signout(() => {
+            history.push("/");
+          });
+        }
+      });
+  };
 
   const { role, name, email, password, buttonText } = values;
 
@@ -53,7 +85,12 @@ const Private = () => {
     <form>
       <div className="form-group">
         <label className="text-muted">Role</label>
-        <input defaultValue={role} type="text" className="form-control" />
+        <input
+          defaultValue={role}
+          type="text"
+          className="form-control"
+          disabled
+        />
       </div>
 
       <div className="form-group">
@@ -67,7 +104,12 @@ const Private = () => {
       </div>
       <div className="form-group">
         <label className="text-muted">Email</label>
-        <input defaultValue={email} type="text" className="form-control" />
+        <input
+          defaultValue={email}
+          type="text"
+          className="form-control"
+          disabled
+        />
       </div>
       <div className="form-group">
         <label className="text-muted">Password</label>
