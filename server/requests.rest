@@ -18,3 +18,8 @@ Accept: application/json
     "token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiR2ltaGFuYSIsImVtYWlsIjoiZ2ltaGFuYWRldkBnbWFpbC5jb20iLCJwYXNzd29yZCI6IjEyMzQ1NiIsImlhdCI6MTYyODYyNjA4MywiZXhwIjoxNjI4NjI2NjgzfQ.n2qX-DIDDjB2JlCtrhaYYJd_C8Tbx3t_W80dlWnkfUI"
 }
 
+
+###
+
+GET http://localhost:8000/api/user/61174f59fc5c9219b49ea286
+
