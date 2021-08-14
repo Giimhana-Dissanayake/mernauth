@@ -22,4 +22,9 @@ Accept: application/json
 ###
 
 GET http://localhost:8000/api/user/61174f59fc5c9219b49ea286
+Content-Type: application/json
+Accept: application/json
 
+{
+    "token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MTE3NGY1OWZjNWM5MjE5YjQ5ZWEyODYiLCJpYXQiOjE2Mjg5MzU4MDIsImV4cCI6MTYyOTU0MDYwMn0.P9QIvn025Sy-tasCa3ylsBRs65K5herbHhh8K0r8G9k"
+}
