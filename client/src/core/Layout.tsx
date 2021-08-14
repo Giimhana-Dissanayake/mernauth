@@ -1,5 +1,5 @@
 import React, { FC, Fragment } from "react";
-import { NavLink, useHistory } from "react-router-dom";
+import { Link, NavLink, useHistory } from "react-router-dom";
 import { isAuth, signout } from "../auth/helper";
 import "./../default.css";
 
@@ -8,34 +8,36 @@ const Layout: FC = (props) => {
 
   const nav = () => (
     <ul className="nav nav-tabs bg-primary">
-      <li className="nav-item">
-        <NavLink to="/" exact className="text-light nav-link">
-          Home
-        </NavLink>
-      </li>
+      <NavLink to="/" exact className="text-light nav-link">
+        Home
+      </NavLink>
+
       {!isAuth() && (
         <>
-          <li className="nav-item">
-            <NavLink to="/signin" className="text-light nav-link">
-              Signin
-            </NavLink>
-          </li>
+          <NavLink to="/signin" className="text-light nav-link">
+            Signin
+          </NavLink>
 
-          <li className="nav-item">
-            <NavLink to="/signup" className="text-light nav-link">
-              SignUp
-            </NavLink>
-          </li>
+          <NavLink to="/signup" className="text-light nav-link">
+            SignUp
+          </NavLink>
         </>
       )}
-      {isAuth() && (
-        <li className="nav-item text-center p-2" style={{ cursor: "pointer" }}>
+      {isAuth() && isAuth().role === "admin" && (
+        <NavLink className="nav-link text-light" to="/admin">
           {isAuth().name}
-        </li>
+        </NavLink>
       )}
+
+      {isAuth() && isAuth().role === "subscriber" && (
+        <NavLink className="nav-link text-light" to="/private">
+          {isAuth().name}
+        </NavLink>
+      )}
+
       {isAuth() && (
         <li
-          className="nav-item text-center p-2"
+          className="nav-link text-danger font-weight-bold"
           style={{ cursor: "pointer" }}
           onClick={() => {
             signout(() => {
