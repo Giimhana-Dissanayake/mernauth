@@ -53,7 +53,7 @@ const Private = () => {
     <form>
       <div className="form-group">
         <label className="text-muted">Role</label>
-        <input value={role} type="text" className="form-control" />
+        <input defaultValue={role} type="text" className="form-control" />
       </div>
 
       <div className="form-group">
@@ -67,7 +67,7 @@ const Private = () => {
       </div>
       <div className="form-group">
         <label className="text-muted">Email</label>
-        <input value={email} type="text" className="form-control" />
+        <input defaultValue={email} type="text" className="form-control" />
       </div>
       <div className="form-group">
         <label className="text-muted">Password</label>
