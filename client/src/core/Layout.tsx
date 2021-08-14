@@ -1,11 +1,9 @@
 import React, { FC, Fragment } from "react";
-import { Link, NavLink, useHistory } from "react-router-dom";
+import { NavLink, useHistory } from "react-router-dom";
 import { isAuth, signout } from "../auth/helper";
-import './../default.css'
-
+import "./../default.css";
 
 const Layout: FC = (props) => {
-
   const history = useHistory();
 
   const nav = () => (
@@ -15,38 +13,39 @@ const Layout: FC = (props) => {
           Home
         </NavLink>
       </li>
-      {
-        !isAuth() && <>
-        <li className="nav-item">
-        <NavLink to="/signin" className="text-light nav-link">
-          Signin
-        </NavLink>
-      </li>
+      {!isAuth() && (
+        <>
+          <li className="nav-item">
+            <NavLink to="/signin" className="text-light nav-link">
+              Signin
+            </NavLink>
+          </li>
 
-      <li className="nav-item">
-        <NavLink to="/signup" className="text-light nav-link">
-          SignUp
-        </NavLink>
-      </li>
+          <li className="nav-item">
+            <NavLink to="/signup" className="text-light nav-link">
+              SignUp
+            </NavLink>
+          </li>
         </>
-      }
-        {
-        isAuth() &&
-        <li className="nav-item text-center p-2" style={{cursor:'pointer'}}>
-         {isAuth().name}
-      </li>     
-      }
-        {
-        isAuth() &&
-        <li className="nav-item text-center p-2" style={{cursor:'pointer'}} onClick={() =>{
-          signout(()=>{
-            history.push('/')
-          })
-        }}>
+      )}
+      {isAuth() && (
+        <li className="nav-item text-center p-2" style={{ cursor: "pointer" }}>
+          {isAuth().name}
+        </li>
+      )}
+      {isAuth() && (
+        <li
+          className="nav-item text-center p-2"
+          style={{ cursor: "pointer" }}
+          onClick={() => {
+            signout(() => {
+              history.push("/");
+            });
+          }}
+        >
           Signout
-      </li>     
-      }
-
+        </li>
+      )}
     </ul>
   );
 
