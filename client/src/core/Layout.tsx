@@ -1,5 +1,5 @@
 import React, { FC, Fragment } from "react";
-import { Link, NavLink, useHistory } from "react-router-dom";
+import { NavLink, useHistory } from "react-router-dom";
 import { isAuth, signout } from "../auth/helper";
 import "./../default.css";
 
