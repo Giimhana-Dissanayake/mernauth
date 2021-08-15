@@ -1,10 +1,10 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.min.css";
-import { getCookie, isAuth, signout } from "../auth/helper";
+import { getCookie, isAuth, signout, updateUser } from "../auth/helper";
 
 import Layout from "../core/Layout";
 
@@ -17,14 +17,10 @@ const Private = () => {
     buttonText: "Submit",
   });
 
-  const history = useHistory();
+  const { push } = useHistory();
   const token = getCookie("token");
 
-  useEffect(() => {
-    loadProfile();
-  }, []);
-
-  const loadProfile = () => {
+  const loadProfile = useCallback(() => {
     axios({
       method: "GET",
       url: `${process.env.REACT_APP_API}/user/${isAuth()._id}`,
@@ -35,17 +31,23 @@ const Private = () => {
       .then((response) => {
         console.log("PRIVATE PROFILE UPDATE ", response);
         const { role, name, email } = response.data;
-        setValues({ ...values, role, name, email });
+        setValues((pS: any) => {
+          return { ...pS, role, name, email };
+        });
       })
       .catch((err) => {
         console.log("PRIVATE PROFILE UPDATE ERROR ", err.response.data.error);
         if (err.response.status === 401) {
           signout(() => {
-            history.push("/");
+            push("/");
           });
         }
       });
-  };
+  }, [push, token]);
+
+  useEffect(() => {
+    loadProfile();
+  }, [loadProfile]);
 
   const { role, name, email, password, buttonText } = values;
 
@@ -57,23 +59,26 @@ const Private = () => {
     event.preventDefault();
     setValues({ ...values, buttonText: "Submitting" });
     axios({
-      method: "POST",
-      url: `${process.env.REACT_APP_API}/signup`,
-      data: { name, email, password },
+      method: "PUT",
+      url: `${process.env.REACT_APP_API}/user/update`,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      data: { name, password },
     })
       .then((response) => {
-        console.log("SIGNUP_SUCCESS ", response);
-        setValues({
-          ...values,
-          name: "",
-          email: "",
-          password: "",
-          buttonText: "Submitted",
+        console.log("PRIVATE_PROFILE_UPDATE_SUCCESS ", response);
+
+        updateUser(response, () => {
+          setValues({
+            ...values,
+            buttonText: "Submitted",
+          });
         });
-        toast.success(response.data.message);
+        toast.success("Profile updated successfully");
       })
       .catch((error) => {
-        console.log("SIGNUP ERROR ", error.response.data);
+        console.log("PRIVATE_PROFILE_UPDATE_ERROR ", error.response.data.error);
         setValues({ ...values, buttonText: "Submit" });
         toast.error(error.response.data.error);
       });
