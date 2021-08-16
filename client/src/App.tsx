@@ -1,10 +1,20 @@
 import React from "react";
+
 import Layout from "./core/Layout";
 
 const App = () => {
   return (
     <Layout>
-      <h1>Hello React</h1>
+      <div className="col-md-6 offset-md-3 text-center">
+        <h1 className="p-5">React Node MongoDb Auth</h1>
+        <h2>MERN</h2>
+        <h2 />
+        <p className="lead">
+          MERN stack login register system with account activation, login with
+          google as well as private and protected routes from authenticated user
+          and users with the role of admin
+        </p>
+      </div>
     </Layout>
   );
 };
