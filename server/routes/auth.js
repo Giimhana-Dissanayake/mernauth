@@ -34,6 +34,6 @@ router.put(
   "/reset-password",
   resetPasswordValidator,
   runValidation,
-  forgotPassword
+  resetPassword
 );
 module.exports = router;
