@@ -10,9 +10,7 @@ const App = () => {
         <h2>MERN</h2>
         <h2 />
         <p className="lead">
-          MERN stack login register system with account activation, login with
-          google as well as private and protected routes from authenticated user
-          and users with the role of admin
+          MERN stack login register system with account activation
         </p>
       </div>
     </Layout>
